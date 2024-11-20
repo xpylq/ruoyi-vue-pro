@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <parent>
+    <artifactId>yudao-module-park</artifactId>
+    <groupId>cn.iocoder.boot</groupId>
+    <!-- 修改 version 为 ${revision} -->
+    <version>${revision}</version>
+  </parent>
+
+  <modelVersion>4.0.0</modelVersion>
+  <artifactId>yudao-module-park-biz</artifactId>
+  <!-- 新增 packaging 为 jar -->
+  <packaging>jar</packaging>
+
+  <!-- 新增 name 为 ${project.artifactId} -->
+  <name>${project.artifactId}</name>
+  <!-- 新增 description 为该模块的描述 -->
+  <description>
+    车位租赁业务
+  </description>
+
+  <dependencies>
+    <dependency>
+      <groupId>cn.iocoder.boot</groupId>
+      <artifactId>yudao-module-park-api</artifactId>
+      <version>${revision}</version>
+    </dependency>
+
+    <!-- Web 相关 -->
+    <dependency>
+      <groupId>cn.iocoder.boot</groupId>
+      <artifactId>yudao-spring-boot-starter-web</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>cn.iocoder.boot</groupId>
+      <artifactId>yudao-spring-boot-starter-security</artifactId>
+    </dependency>
+
+    <!-- DB 相关 -->
+    <dependency>
+      <groupId>cn.iocoder.boot</groupId>
+      <artifactId>yudao-spring-boot-starter-mybatis</artifactId>
+    </dependency>
+
+    <!-- 工具类相关 -->
+    <dependency>
+      <groupId>cn.iocoder.boot</groupId>
+      <artifactId>yudao-spring-boot-starter-excel</artifactId>
+    </dependency>
+
+    <!-- Test 测试相关 -->
+    <dependency>
+      <groupId>cn.iocoder.boot</groupId>
+      <artifactId>yudao-spring-boot-starter-test</artifactId>
+    </dependency>
+  </dependencies>
+</project>
