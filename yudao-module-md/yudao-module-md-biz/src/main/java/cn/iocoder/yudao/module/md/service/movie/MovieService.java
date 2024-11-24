@@ -2,7 +2,7 @@ package cn.iocoder.yudao.module.md.service.movie;
 
 import javax.validation.*;
 import cn.iocoder.yudao.module.md.controller.admin.movie.vo.*;
-import cn.iocoder.yudao.module.md.controller.app.vo.AppMoviePageReqVO;
+import cn.iocoder.yudao.module.md.controller.app.movie.vo.AppMoviePageReqVO;
 import cn.iocoder.yudao.module.md.dal.dataobject.movie.MovieDO;
 import cn.iocoder.yudao.framework.common.pojo.PageResult;
 

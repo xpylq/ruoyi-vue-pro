@@ -3,7 +3,7 @@ package cn.iocoder.yudao.module.md.dal.mysql.movie;
 import cn.iocoder.yudao.framework.common.pojo.PageResult;
 import cn.iocoder.yudao.framework.mybatis.core.query.LambdaQueryWrapperX;
 import cn.iocoder.yudao.framework.mybatis.core.mapper.BaseMapperX;
-import cn.iocoder.yudao.module.md.controller.app.vo.AppMoviePageReqVO;
+import cn.iocoder.yudao.module.md.controller.app.movie.vo.AppMoviePageReqVO;
 import cn.iocoder.yudao.module.md.dal.dataobject.movie.MovieDO;
 import org.apache.ibatis.annotations.Mapper;
 import cn.iocoder.yudao.module.md.controller.admin.movie.vo.*;
