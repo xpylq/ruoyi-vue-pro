@@ -31,10 +31,10 @@
             <artifactId>yudao-module-infra-biz</artifactId>
             <version>${revision}</version>
         </dependency>
-        <!-- madou -->
+        <!-- md -->
         <dependency>
             <groupId>cn.iocoder.boot</groupId>
-            <artifactId>yudao-module-madou-biz</artifactId>
+            <artifactId>yudao-module-md-biz</artifactId>
             <version>${revision}</version>
         </dependency>
         <!-- 会员中心。默认注释，保证编译速度 -->
