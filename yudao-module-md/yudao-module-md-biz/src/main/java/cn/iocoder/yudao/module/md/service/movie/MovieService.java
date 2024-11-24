@@ -2,6 +2,7 @@ package cn.iocoder.yudao.module.md.service.movie;
 
 import javax.validation.*;
 import cn.iocoder.yudao.module.md.controller.admin.movie.vo.*;
+import cn.iocoder.yudao.module.md.controller.app.vo.AppMoviePageReqVO;
 import cn.iocoder.yudao.module.md.dal.dataobject.movie.MovieDO;
 import cn.iocoder.yudao.framework.common.pojo.PageResult;
 
@@ -49,5 +50,13 @@ public interface MovieService {
      * @return 影片分页
      */
     PageResult<MovieDO> getMoviePage(MoviePageReqVO pageReqVO);
+
+    /**
+     * 获得影片分页
+     *
+     * @param pageReqVO 分页查询
+     * @return 影片分页
+     */
+    PageResult<MovieDO> getMoviePage(AppMoviePageReqVO pageReqVO);
 
 }

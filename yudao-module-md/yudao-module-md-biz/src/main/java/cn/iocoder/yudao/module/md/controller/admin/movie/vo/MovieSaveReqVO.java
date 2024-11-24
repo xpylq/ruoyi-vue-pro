@@ -14,7 +14,7 @@ public class MovieSaveReqVO {
 
     @Schema(description = "关联id", requiredMode = Schema.RequiredMode.REQUIRED, example = "7122")
     @NotNull(message = "关联id不能为空")
-    private Long refId;
+    private String refId;
 
     @Schema(description = "标题", requiredMode = Schema.RequiredMode.REQUIRED)
     @NotEmpty(message = "标题不能为空")

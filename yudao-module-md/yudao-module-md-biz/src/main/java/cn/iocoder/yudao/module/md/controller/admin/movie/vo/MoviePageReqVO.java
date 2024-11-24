@@ -15,7 +15,7 @@ import static cn.iocoder.yudao.framework.common.util.date.DateUtils.FORMAT_YEAR_
 public class MoviePageReqVO extends PageParam {
 
     @Schema(description = "关联id", example = "7122")
-    private Long refId;
+    private String refId;
 
     @Schema(description = "标题")
     private String title;

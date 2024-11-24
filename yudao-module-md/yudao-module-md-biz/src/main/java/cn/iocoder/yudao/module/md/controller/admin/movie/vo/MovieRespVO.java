@@ -8,6 +8,8 @@ import com.alibaba.excel.annotation.*;
 import cn.iocoder.yudao.framework.excel.core.annotations.DictFormat;
 import cn.iocoder.yudao.framework.excel.core.convert.DictConvert;
 
+import javax.validation.constraints.NotEmpty;
+
 @Schema(description = "管理后台 - 影片 Response VO")
 @Data
 @ExcelIgnoreUnannotated
@@ -19,7 +21,7 @@ public class MovieRespVO {
 
     @Schema(description = "关联id", requiredMode = Schema.RequiredMode.REQUIRED, example = "7122")
     @ExcelProperty("关联id")
-    private Long refId;
+    private String refId;
 
     @Schema(description = "标题", requiredMode = Schema.RequiredMode.REQUIRED)
     @ExcelProperty(value = "标题", converter = DictConvert.class)
@@ -51,5 +53,9 @@ public class MovieRespVO {
     @Schema(description = "创建时间", requiredMode = Schema.RequiredMode.REQUIRED)
     @ExcelProperty("创建时间")
     private LocalDateTime createTime;
+
+    @Schema(description = "图片url", requiredMode = Schema.RequiredMode.REQUIRED, example = "https://www.iocoder.cn")
+    @NotEmpty(message = "图片url不能为空")
+    private String imageUrl;
 
 }

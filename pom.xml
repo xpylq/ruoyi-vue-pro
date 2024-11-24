@@ -15,8 +15,8 @@
         <!-- 各种 module 拓展 -->
         <module>yudao-module-system</module>
         <module>yudao-module-infra</module>
-        <module>yudao-module-md</module>
-        <module>yudao-module-member</module>
+                <module>yudao-module-md</module>
+        <!--        <module>yudao-module-member</module>-->
         <!--        <module>yudao-module-bpm</module>-->
         <!--        <module>yudao-module-report</module>-->
         <!--        <module>yudao-module-mp</module>-->
@@ -26,7 +26,7 @@
         <!--        <module>yudao-module-erp</module>-->
         <!--        <module>yudao-module-iot</module>-->
         <!-- AI 大模型的开启，请参考 https://doc.iocoder.cn/ai/build/ 文档，对 JDK 版本要要求！ -->
-        <!--        <module>yudao-module-ai</module>-->
+<!--        <module>yudao-module-ai</module>-->
     </modules>
 
     <name>${project.artifactId}</name>

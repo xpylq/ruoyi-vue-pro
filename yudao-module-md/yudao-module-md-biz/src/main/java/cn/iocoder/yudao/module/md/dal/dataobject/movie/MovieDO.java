@@ -27,23 +27,20 @@ public class MovieDO extends BaseDO {
     /**
      * 关联id
      */
-    private Long refId;
+    private String refId;
     /**
      * 标题
      *
-     * 枚举 {@link TODO md_movie_type 对应的类}
      */
     private String title;
     /**
      * 类型
      *
-     * 枚举 {@link TODO md_movie_area 对应的类}
      */
     private String type;
     /**
      * 地区
      *
-     * 枚举 {@link TODO md_movie_area 对应的类}
      */
     private String area;
     /**

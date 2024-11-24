@@ -4,8 +4,8 @@ create table `md_movie`
     `id`          bigint       not null auto_increment comment '影片主键',
     `ref_id`      bigint       not null comment '关联id',
     `title`       varchar(256) not null comment '标题',
-    `type` varchar(256) not null default 'self' comment '类型',
-    `area` varchar(256) not null default 'asia' comment '地区',
+    `type`        varchar(256) not null default 'self' comment '类型',
+    `area`        varchar(256) not null default 'asia' comment '地区',
     `author`      varchar(256) not null comment '作者',
     `duration`    int          not null comment '时长（单位秒）',
     `view_times`  bigint       not null default 0 comment '观看次数',
@@ -17,5 +17,10 @@ create table `md_movie`
     `deleted`     bit(1)       not null default b'0' comment '是否删除',
     `tenant_id`   bigint       not null default 0 comment '租户编号',
     primary key (`id`) using btree,
-    index         `idx_refId`(`ref_id`) using btree
+    index         `idx_refId`(`ref_id`) using btree,
 ) engine = innodb auto_increment = 32 character set = utf8mb4 collate = utf8mb4_bin comment = '影片表';
+alter table `md_movie`
+    add index         `idx_title`(`title`) using btree,
+    add index         `idx_author`(`author`) using btree,
+    add index         `idx_viewTimes`(`view_times`) using btree,
+    add index         `idx_createTime_viewTimes`(`create_time`,`view_times`) using btree;

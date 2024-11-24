@@ -4,6 +4,7 @@ import cn.iocoder.yudao.framework.common.pojo.PageResult;
 import cn.iocoder.yudao.framework.common.util.object.BeanUtils;
 import cn.iocoder.yudao.module.md.controller.admin.movie.vo.MoviePageReqVO;
 import cn.iocoder.yudao.module.md.controller.admin.movie.vo.MovieSaveReqVO;
+import cn.iocoder.yudao.module.md.controller.app.vo.AppMoviePageReqVO;
 import cn.iocoder.yudao.module.md.dal.dataobject.movie.MovieDO;
 import cn.iocoder.yudao.module.md.dal.mysql.movie.MovieMapper;
 import cn.iocoder.yudao.module.md.enums.ErrorCodeConstants;
@@ -68,4 +69,8 @@ public class MovieServiceImpl implements MovieService {
         return movieMapper.selectPage(pageReqVO);
     }
 
+    @Override
+    public PageResult<MovieDO> getMoviePage(AppMoviePageReqVO pageReqVO) {
+        return movieMapper.selectPage(pageReqVO);
+    }
 }

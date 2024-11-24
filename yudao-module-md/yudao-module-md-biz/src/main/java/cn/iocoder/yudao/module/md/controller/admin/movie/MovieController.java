@@ -28,7 +28,7 @@ import cn.iocoder.yudao.module.md.controller.admin.movie.vo.*;
 import cn.iocoder.yudao.module.md.dal.dataobject.movie.MovieDO;
 import cn.iocoder.yudao.module.md.service.movie.MovieService;
 
-@Tag(name = "管理后台 - 影片")
+@Tag(name = "管理后台-MD-影片")
 @RestController
 @RequestMapping("/md/movie")
 @Validated
