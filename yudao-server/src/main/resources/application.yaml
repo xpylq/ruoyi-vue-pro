@@ -235,13 +235,13 @@ yudao:
       topic: ${spring.application.name}-websocket # 消息发送的 Kafka Topic
       consumer-group: ${spring.application.name}-websocket-consumer # 消息发送的 Kafka Consumer Group
   swagger:
-    title: 芋道快速开发平台
-    description: 提供管理后台、用户 App 的所有功能
-    version: ${yudao.info.version}
+    title: swagger文档
+    description: swagger文档
+    version: 1.0.0
     url: ${yudao.web.admin-ui.url}
-    email: xingyu4j@vip.qq.com
+    email: joker@gmail.com
     license: MIT
-    license-url: https://gitee.com/zhijiantianya/ruoyi-vue-pro/blob/master/LICENSE
+    license-url: www.google.com
   codegen:
     base-package: ${yudao.info.base-package}
     db-schemas: ${spring.datasource.dynamic.datasource.master.name}

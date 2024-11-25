@@ -33,7 +33,7 @@ public class AppMovieController {
 
     @GetMapping("/page")
     @Operation(summary = "获得影片分页")
-    @PermitAll
+    //@PermitAll
     public CommonResult<PageResult<MovieRespVO>> getMoviePage(@Valid AppMoviePageReqVO pageReqVO) {
         PageResult<MovieDO> pageResult = movieService.getMoviePage(pageReqVO);
         return success(BeanUtils.toBean(pageResult, MovieRespVO.class));
@@ -41,7 +41,7 @@ public class AppMovieController {
 
     @GetMapping("/detail")
     @Operation(summary = "获取影片详情")
-    @PermitAll
+    //@PermitAll
     public CommonResult<String> getDetail(String refId) {
         String videoUrl = HSexUtils.parseVideoUrl(refId);
         return success(videoUrl);

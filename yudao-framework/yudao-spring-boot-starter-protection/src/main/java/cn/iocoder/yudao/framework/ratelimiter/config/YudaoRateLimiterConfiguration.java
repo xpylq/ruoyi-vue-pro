@@ -52,4 +52,9 @@ public class YudaoRateLimiterConfiguration {
         return new ExpressionRateLimiterKeyResolver();
     }
 
+    @Bean
+    public MDLimiterKeyResolver mdLimiterKeyResolver() {
+        return new MDLimiterKeyResolver();
+    }
+
 }
