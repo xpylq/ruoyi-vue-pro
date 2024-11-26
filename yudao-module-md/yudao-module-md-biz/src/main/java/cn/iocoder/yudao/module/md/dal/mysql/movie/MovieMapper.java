@@ -5,6 +5,7 @@ import cn.iocoder.yudao.framework.mybatis.core.query.LambdaQueryWrapperX;
 import cn.iocoder.yudao.framework.mybatis.core.mapper.BaseMapperX;
 import cn.iocoder.yudao.module.md.controller.app.movie.vo.AppMoviePageReqVO;
 import cn.iocoder.yudao.module.md.dal.dataobject.movie.MovieDO;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import org.apache.ibatis.annotations.Mapper;
 import cn.iocoder.yudao.module.md.controller.admin.movie.vo.*;
 
@@ -15,6 +16,12 @@ import cn.iocoder.yudao.module.md.controller.admin.movie.vo.*;
  */
 @Mapper
 public interface MovieMapper extends BaseMapperX<MovieDO> {
+
+    default MovieDO fetchByRefId(String refId) {
+        QueryWrapper<MovieDO> wrapper = new QueryWrapper<>();
+        wrapper.eq("ref_id", refId);
+        return this.selectOne(wrapper, false);
+    }
 
     default PageResult<MovieDO> selectPage(MoviePageReqVO reqVO) {
         return selectPage(reqVO, new LambdaQueryWrapperX<MovieDO>()

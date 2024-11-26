@@ -1,12 +1,18 @@
 package cn.iocoder.yudao.module.md.controller.app.movie;
 
 
+import cn.hutool.core.util.StrUtil;
 import cn.iocoder.yudao.framework.common.pojo.CommonResult;
 import cn.iocoder.yudao.framework.ratelimiter.core.annotation.RateLimiter;
-import cn.iocoder.yudao.framework.ratelimiter.core.keyresolver.impl.ClientIpRateLimiterKeyResolver;
 import cn.iocoder.yudao.framework.ratelimiter.core.keyresolver.impl.MDLimiterKeyResolver;
+import com.esotericsoftware.minlog.Log;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import org.apache.hc.client5.http.classic.methods.HttpGet;
+import org.apache.hc.client5.http.impl.classic.CloseableHttpClient;
+import org.apache.hc.client5.http.impl.classic.CloseableHttpResponse;
+import org.apache.hc.client5.http.impl.classic.HttpClients;
+import org.apache.hc.core5.http.io.entity.EntityUtils;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,12 +27,27 @@ import static cn.iocoder.yudao.framework.common.pojo.CommonResult.success;
 @RequestMapping("/md/test")
 @Validated
 public class TestController {
+    static {
+        System.setProperty("https.protocols", "TLSv1");
+    }
+    private CloseableHttpClient httpClient = HttpClients.createDefault();
 
     @GetMapping("/limit")
     @Operation(summary = "限流测试")
-    @PermitAll
     @RateLimiter(count = 1, keyResolver = MDLimiterKeyResolver.class)
-    public CommonResult<String> getMoviePage(long id) {
+    public CommonResult<String> getMoviePage() {
+        return success("");
+    }
+
+    @GetMapping("/hsex")
+    public CommonResult<String> hsex(String id) {
+        try {
+            String url = StrUtil.format("https://hsex.men/video-{}.htm", id);
+            CloseableHttpResponse response = httpClient.execute(new HttpGet(url));
+            Log.info(EntityUtils.toString(response.getEntity()));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return success("");
     }
 }

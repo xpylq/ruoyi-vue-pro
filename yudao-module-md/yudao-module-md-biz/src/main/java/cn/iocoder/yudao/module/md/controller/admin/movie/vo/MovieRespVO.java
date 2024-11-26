@@ -58,4 +58,7 @@ public class MovieRespVO {
     @NotEmpty(message = "图片url不能为空")
     private String imageUrl;
 
+    @NotEmpty(message = "播放地址")
+    private String videoUrl;
+
 }
