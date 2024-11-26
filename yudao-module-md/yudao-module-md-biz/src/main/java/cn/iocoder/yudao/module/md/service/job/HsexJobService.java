@@ -6,7 +6,12 @@ import cn.hutool.http.HttpUtil;
 import cn.iocoder.yudao.module.md.dal.dataobject.movie.MovieDO;
 import cn.iocoder.yudao.module.md.dal.mysql.movie.MovieMapper;
 import cn.iocoder.yudao.module.md.utils.HSexUtils;
+import cn.iocoder.yudao.module.md.utils.HttpUtils;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.hc.client5.http.classic.methods.HttpGet;
+import org.apache.hc.client5.http.impl.classic.CloseableHttpClient;
+import org.apache.hc.client5.http.impl.classic.CloseableHttpResponse;
+import org.apache.hc.core5.http.io.entity.EntityUtils;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +21,8 @@ import org.springframework.stereotype.Service;
 @Service
 public class HsexJobService {
     public static final String BASE_URL = "https://hsex.men";
+
+    private CloseableHttpClient httpClient = HttpUtils.getHttpClient();
 
     @Autowired
     private MovieMapper movieMapper;
@@ -53,11 +60,12 @@ public class HsexJobService {
     public void processList(String urlTemplate, int totalPage) {
         for (int page = 1; page <= totalPage; page++) {
             String url = StrUtil.format(urlTemplate, page);
-            String pageContent = HttpUtil.get(url);
             try {
-                if (StrUtil.isNotBlank(pageContent)) {
+                CloseableHttpResponse response = httpClient.execute(new HttpGet(url));
+                log.info("hsex processing currentPage={}", page);
+                if (response.getCode() == 200 && response.getEntity() != null) {
                     // 解析页面内容
-                    Document document = Jsoup.parse(pageContent);
+                    Document document = Jsoup.parse(EntityUtils.toString(response.getEntity()));
                     document.selectXpath("//div[@class='thumbnail']").stream().forEach(element -> {
                         try {
                             String detailUrl = element.selectXpath(".//a").first().attr("href");
@@ -81,16 +89,16 @@ public class HsexJobService {
                                 tmp.setType("self");
                                 tmp.setArea("asia");
                                 movieMapper.insert(tmp);
-                                log.info("hsex month top collecte, refId: {}, title: {}, author: {}, duration: {}, imageUrl: {}", refId, title, author, duration, imageUrl);
+                                log.info("hsex insert, refId: {}, title: {}, author: {}, duration: {}, imageUrl: {}", refId, title, author, duration, imageUrl);
                             }
                         } catch (Exception e) {
-                            log.error("hsex month top parse fail, url: {}, e: {}", url, e.getMessage(), e);
+                            log.error("hsex fail, url: {}, e: {}", url, e.getMessage(), e);
                         }
                     });
                 }
                 Thread.sleep(RandomUtil.randomInt(1000, 10000));
             } catch (Exception e) {
-                log.error("hsex month top request fail, url: {}, e: {}", url, e.getMessage(), e);
+                log.error("hsex fail, url: {}, e: {}", url, e.getMessage(), e);
             }
         }
     }

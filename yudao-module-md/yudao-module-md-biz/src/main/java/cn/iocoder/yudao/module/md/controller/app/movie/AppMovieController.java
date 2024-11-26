@@ -52,13 +52,12 @@ public class AppMovieController {
     @PermitAll
     @RateLimiter(count = 1, keyResolver = MDLimiterKeyResolver.class)
     public CommonResult<MovieRespVO> getDetail(String id) {
-        String videoUrl = StrUtil.EMPTY;
+        MovieRespVO movieRespVO = null;
         MovieDO movie = movieMapper.selectById(id);
         if (movie != null) {
-            videoUrl = HSexUtils.parseVideoUrl(movie.getRefId());
+            movieRespVO = BeanUtils.toBean(movie, MovieRespVO.class);
+            movieRespVO.setVideoUrl(HSexUtils.parseVideoUrl(movie.getRefId()));
         }
-        MovieRespVO movieRespVO = BeanUtils.toBean(movie, MovieRespVO.class);
-        movieRespVO.setVideoUrl(videoUrl);
         return success(movieRespVO);
     }
 }
