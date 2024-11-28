@@ -72,6 +72,7 @@ public class ServletUtils {
         return ((ServletRequestAttributes) requestAttributes).getRequest();
     }
 
+
     public static String getUserAgent() {
         HttpServletRequest request = getRequest();
         if (request == null) {
