@@ -1,17 +1,17 @@
 package cn.iocoder.yudao.module.md.controller.app.movie;
 
 
-import cn.hutool.core.codec.Base64;
 import cn.hutool.core.util.StrUtil;
-import cn.hutool.crypto.asymmetric.KeyType;
 import cn.hutool.crypto.asymmetric.RSA;
 import cn.iocoder.yudao.framework.common.pojo.CommonResult;
 import cn.iocoder.yudao.framework.common.util.json.JsonUtils;
-import cn.iocoder.yudao.framework.encrypt.annotation.ApiEncrypt;
+import cn.iocoder.yudao.framework.encrypt.RsaComponent;
+import cn.iocoder.yudao.framework.encrypt.core.annotation.ApiEncrypt;
 import cn.iocoder.yudao.framework.ratelimiter.core.annotation.RateLimiter;
 import cn.iocoder.yudao.framework.ratelimiter.core.keyresolver.impl.MDLimiterKeyResolver;
 import cn.iocoder.yudao.module.md.dal.dataobject.movie.MovieDO;
 import cn.iocoder.yudao.module.md.utils.HttpUtils;
+import cn.iocoder.yudao.module.md.utils.MockUtils;
 import com.esotericsoftware.minlog.Log;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -20,6 +20,7 @@ import org.apache.hc.client5.http.classic.methods.HttpGet;
 import org.apache.hc.client5.http.impl.classic.CloseableHttpClient;
 import org.apache.hc.client5.http.impl.classic.CloseableHttpResponse;
 import org.apache.hc.core5.http.io.entity.EntityUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -35,8 +36,11 @@ import static cn.iocoder.yudao.framework.common.pojo.CommonResult.success;
 @RequestMapping("/md/test")
 @Validated
 public class TestController {
+    @Autowired
+    private RsaComponent rsaComponent;
 
     private CloseableHttpClient httpClient = HttpUtils.getHttpClient();
+
 
     @PermitAll
     @GetMapping("/limit")
@@ -60,23 +64,25 @@ public class TestController {
     }
 
     @PermitAll
-    @ApiEncrypt
     @RateLimiter(count = 1, keyResolver = MDLimiterKeyResolver.class)
     @GetMapping("/encrypt")
-    public CommonResult<MovieDO> encrypt() {
-        MovieDO movie = new MovieDO();
-        movie.setId(1L);
-        movie.setTitle("测试");
-        return success(movie);
-    }
-    @PermitAll
-    @RateLimiter(count = 1, keyResolver = MDLimiterKeyResolver.class)
-    @GetMapping("/noEncrypt")
     public CommonResult<MovieDO> noEncrypt() {
-        MovieDO movie = new MovieDO();
-        movie.setId(1L);
-        movie.setTitle("测试");
+        MovieDO movie = MockUtils.mockMovie();
+        String encryptData = rsaComponent.encrypt(MockUtils.mockMovie());
+        log.info("待加密:{}", JsonUtils.toJsonString(movie));
+        log.info("加密后:{}", encryptData);
+        log.info("解密:{}", JsonUtils.toJsonString(rsaComponent.decrypt(encryptData, MovieDO.class)));
+        return success(movie, encryptData);
+    }
+
+    @PermitAll
+    @ApiEncrypt
+    @RateLimiter(count = 1, keyResolver = MDLimiterKeyResolver.class)
+    @GetMapping("/apiEncrypt")
+    public CommonResult<MovieDO> encrypt() {
+        MovieDO movie = MockUtils.mockMovie();
         return success(movie);
     }
+
 
 }

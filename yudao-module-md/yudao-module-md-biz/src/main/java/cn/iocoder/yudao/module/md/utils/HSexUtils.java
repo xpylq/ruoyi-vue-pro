@@ -2,6 +2,7 @@ package cn.iocoder.yudao.module.md.utils;
 
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.http.HttpUtil;
+import lombok.extern.slf4j.Slf4j;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 
@@ -10,6 +11,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+@Slf4j
 public class HSexUtils {
     // 定义正则表达式
     public static final String IMAGE_URL_REGEX = "url\\(['\"]?(.*?)['\"]?\\)";
@@ -21,6 +23,7 @@ public class HSexUtils {
     public static String parseVideoUrl(String refId) {
         String url = StrUtil.format(BASE_URL_TEMPLATE, refId);
         String pageContent = HttpUtil.get(url);
+        log.info("parseVideoUrl url={},content={}", url, pageContent);
         if (StrUtil.isNotBlank(pageContent)) {
             // 解析页面内容
             Document document = Jsoup.parse(pageContent);

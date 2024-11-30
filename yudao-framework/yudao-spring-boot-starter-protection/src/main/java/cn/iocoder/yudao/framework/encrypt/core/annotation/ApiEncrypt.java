@@ -1,4 +1,4 @@
-package cn.iocoder.yudao.framework.encrypt.annotation;
+package cn.iocoder.yudao.framework.encrypt.core.annotation;
 
 
 import java.lang.annotation.*;

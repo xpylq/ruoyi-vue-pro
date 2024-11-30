@@ -1,11 +1,12 @@
-package cn.iocoder.yudao.framework.encrypt.aop;
+package cn.iocoder.yudao.framework.encrypt.core.aop;
 
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.crypto.asymmetric.KeyType;
 import cn.hutool.crypto.asymmetric.RSA;
 import cn.iocoder.yudao.framework.common.pojo.CommonResult;
 import cn.iocoder.yudao.framework.common.util.json.JsonUtils;
-import cn.iocoder.yudao.framework.encrypt.annotation.ApiEncrypt;
+import cn.iocoder.yudao.framework.encrypt.RsaComponent;
+import cn.iocoder.yudao.framework.encrypt.core.annotation.ApiEncrypt;
 import cn.iocoder.yudao.framework.encrypt.config.ApiEncryptProperties;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -22,14 +23,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 @Slf4j
 @Aspect
 public class ApiEncryptAspect {
-    private final RSA rsa;
+    private final RsaComponent rsaComponent;
 
     @Autowired
     private ApiEncryptProperties properties;
 
-    public ApiEncryptAspect(ApiEncryptProperties properties) {
-        this.properties = properties;
-        rsa = new RSA(properties.getRsaPrivateKey(), properties.getRsaPublicKey());
+    public ApiEncryptAspect(RsaComponent rsaComponent) {
+        this.rsaComponent = rsaComponent;
     }
 
     @SuppressWarnings({"unchecked", "rawtypes"})
@@ -44,11 +44,11 @@ public class ApiEncryptAspect {
                 isCommonResult = true;
                 CommonResult commonResult = (CommonResult) result;
                 if (null != commonResult.getData()) {
-                    encryptData = rsa.encryptBase64(JsonUtils.toJsonByte(commonResult.getData()), KeyType.PublicKey);
+                    encryptData = rsaComponent.encrypt(commonResult.getData());
                 }
             }
         } catch (Throwable e) {
-            log.error("接口请求加密失败，error={}", e.getMessage(), e);
+            log.error("接口返回值加密失败，error={}", e.getMessage(), e);
         }
         if (isCommonResult && StrUtil.isNotBlank(encryptData)) {
             ((CommonResult) result).setData(encryptData);

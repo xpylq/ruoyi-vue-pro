@@ -1,6 +1,8 @@
 package cn.iocoder.yudao.framework.encrypt.config;
 
-import cn.iocoder.yudao.framework.encrypt.aop.ApiEncryptAspect;
+import cn.hutool.crypto.asymmetric.RSA;
+import cn.iocoder.yudao.framework.encrypt.RsaComponent;
+import cn.iocoder.yudao.framework.encrypt.core.aop.ApiEncryptAspect;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 
@@ -9,8 +11,14 @@ import org.springframework.context.annotation.Bean;
 public class YudaoApiEncryptAspectAutoConfiguration {
 
     @Bean
-    public ApiEncryptAspect apiEncryptAspect(ApiEncryptProperties apiEncryptProperties) {
-        return new ApiEncryptAspect(apiEncryptProperties);
+    public RsaComponent rsa(ApiEncryptProperties properties) {
+        return new RsaComponent(properties);
+    }
+
+
+    @Bean
+    public ApiEncryptAspect apiEncryptAspect(RsaComponent rsaComponent) {
+        return new ApiEncryptAspect(rsaComponent);
     }
 
 }
