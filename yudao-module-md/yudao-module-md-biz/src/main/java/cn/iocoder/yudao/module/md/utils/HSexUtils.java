@@ -20,17 +20,22 @@ public class HSexUtils {
 
     public static String BASE_URL_TEMPLATE = "https://hsex.men/video-{}.htm";
 
+//    public static String parseVideoUrl(String refId) {
+//        String url = StrUtil.format(BASE_URL_TEMPLATE, refId);
+//        String pageContent = HttpUtil.get(url);
+//        log.info("parseVideoUrl url={},content={}", url, pageContent);
+//        if (StrUtil.isNotBlank(pageContent)) {
+//            // 解析页面内容
+//            Document document = Jsoup.parse(pageContent);
+//            String videoUrl = document.selectXpath("//video/source").first().attr("src");
+//            return videoUrl.replace("cdn.hsex.tv", "cdn.bigcloud.click");
+//        }
+//        return StrUtil.EMPTY;
+//    }
     public static String parseVideoUrl(String refId) {
-        String url = StrUtil.format(BASE_URL_TEMPLATE, refId);
-        String pageContent = HttpUtil.get(url);
-        log.info("parseVideoUrl url={},content={}", url, pageContent);
-        if (StrUtil.isNotBlank(pageContent)) {
-            // 解析页面内容
-            Document document = Jsoup.parse(pageContent);
-            String videoUrl = document.selectXpath("//video/source").first().attr("src");
-            return videoUrl.replace("cdn.hsex.tv", "cdn.bigcloud.click");
-        }
-        return StrUtil.EMPTY;
+        //String url = StrUtil.format("http://crawler:8080/md/movie/detail?refId={}", refId);
+        String url = StrUtil.format("http://137.220.202.203:8080/md/movie/detail?refId={}",refId);
+        return HttpUtil.get(url);
     }
 
 

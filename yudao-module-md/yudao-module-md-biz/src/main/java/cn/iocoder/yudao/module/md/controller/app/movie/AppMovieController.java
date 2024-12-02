@@ -1,6 +1,5 @@
 package cn.iocoder.yudao.module.md.controller.app.movie;
 
-import cn.hutool.core.util.StrUtil;
 import cn.iocoder.yudao.framework.common.pojo.CommonResult;
 import cn.iocoder.yudao.framework.common.pojo.PageResult;
 import cn.iocoder.yudao.framework.common.util.object.BeanUtils;
@@ -10,6 +9,7 @@ import cn.iocoder.yudao.module.md.controller.admin.movie.vo.MovieRespVO;
 import cn.iocoder.yudao.module.md.controller.app.movie.vo.AppMoviePageReqVO;
 import cn.iocoder.yudao.module.md.dal.dataobject.movie.MovieDO;
 import cn.iocoder.yudao.module.md.dal.mysql.movie.MovieMapper;
+import cn.iocoder.yudao.module.md.dal.redis.movie.MovieRedisDAO;
 import cn.iocoder.yudao.module.md.service.movie.MovieService;
 import cn.iocoder.yudao.module.md.utils.HSexUtils;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -36,7 +36,7 @@ public class AppMovieController {
     private MovieService movieService;
 
     @Autowired
-    private MovieMapper movieMapper;
+    private MovieRedisDAO movieRedisDAO;
 
     @GetMapping("/page")
     @Operation(summary = "获得影片分页")
@@ -52,12 +52,6 @@ public class AppMovieController {
     @PermitAll
     @RateLimiter(count = 1, keyResolver = MDLimiterKeyResolver.class)
     public CommonResult<MovieRespVO> getDetail(String id) {
-        MovieRespVO movieRespVO = null;
-        MovieDO movie = movieMapper.selectById(id);
-        if (movie != null) {
-            movieRespVO = BeanUtils.toBean(movie, MovieRespVO.class);
-            movieRespVO.setVideoUrl(HSexUtils.parseVideoUrl(movie.getRefId()));
-        }
-        return success(movieRespVO);
+        return success(movieRedisDAO.getById(id));
     }
 }
