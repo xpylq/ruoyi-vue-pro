@@ -33,8 +33,8 @@ public class HSexUtils {
 //        return StrUtil.EMPTY;
 //    }
     public static String parseVideoUrl(String refId) {
-        //String url = StrUtil.format("http://crawler:8080/md/movie/detail?refId={}", refId);
-        String url = StrUtil.format("http://137.220.202.203:8080/md/movie/detail?refId={}",refId);
+        String url = StrUtil.format("http://crawler:8080/md/movie/detail?refId={}", refId);
+        //String url = StrUtil.format("http://137.220.202.203:8080/md/movie/detail?refId={}",refId);
         return HttpUtil.get(url);
     }
 

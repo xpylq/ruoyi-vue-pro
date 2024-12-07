@@ -1,5 +1,6 @@
 package cn.iocoder.yudao.module.md.controller.app.movie.vo;
 
+import cn.hutool.crypto.digest.otp.HOTP;
 import cn.iocoder.yudao.framework.common.pojo.PageParam;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
@@ -25,8 +26,11 @@ public class AppMoviePageReqVO extends PageParam {
     @Schema(description = "作者")
     private String author;
 
+    @Schema(description = "时间范围类型(week:每周，month:每月，all:历史)")
+    private String timeRangeType="month";
+
     @Schema(description = "排序类型（hot:热门，time:最新）")
-    private String orderType;
+    private String orderType="hot";
 
 
 }

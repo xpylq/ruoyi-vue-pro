@@ -1,6 +1,8 @@
 package cn.iocoder.yudao.module.md.dal.mysql.movie;
 
+import cn.hutool.core.date.DateUtil;
 import cn.iocoder.yudao.framework.common.pojo.PageResult;
+import cn.iocoder.yudao.framework.common.util.date.DateUtils;
 import cn.iocoder.yudao.framework.mybatis.core.query.LambdaQueryWrapperX;
 import cn.iocoder.yudao.framework.mybatis.core.mapper.BaseMapperX;
 import cn.iocoder.yudao.module.md.controller.app.movie.vo.AppMoviePageReqVO;
@@ -42,12 +44,19 @@ public interface MovieMapper extends BaseMapperX<MovieDO> {
                 .eqIfPresent(MovieDO::getType, reqVO.getType())
                 .eqIfPresent(MovieDO::getArea, reqVO.getArea())
                 .eqIfPresent(MovieDO::getAuthor, reqVO.getAuthor());
+        // 时间范围类型(week:每周,month:每月,all:历史)
+        if ("week".equals(reqVO.getTimeRangeType())) {
+            query.gt(MovieDO::getCreateTime, DateUtil.beginOfWeek(DateUtil.date()));
+        } else if ("month".equals(reqVO.getTimeRangeType())) {
+            query.gt(MovieDO::getCreateTime, DateUtil.beginOfMonth(DateUtil.date()));
+        }
+        // 排序类型（hot:热门，time:最新）
         if ("hot".equals(reqVO.getOrderType())) {
             query.orderByDesc(MovieDO::getViewTimes);
         } else if ("time".equals(reqVO.getOrderType())) {
-            query.orderByAsc(MovieDO::getCreateTime);
+            query.orderByDesc(MovieDO::getCreateTime);
         } else {
-            query.orderByAsc(MovieDO::getCreateTime);
+            query.orderByDesc(MovieDO::getViewTimes);
         }
         return selectPage(reqVO, query);
 
