@@ -90,5 +90,4 @@ public class MovieController {
         ExcelUtils.write(response, "影片.xls", "数据", MovieRespVO.class,
                         BeanUtils.toBean(list, MovieRespVO.class));
     }
-
 }

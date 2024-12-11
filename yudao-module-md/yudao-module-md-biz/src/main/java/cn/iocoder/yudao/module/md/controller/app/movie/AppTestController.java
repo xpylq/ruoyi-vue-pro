@@ -15,6 +15,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.hc.client5.http.impl.classic.CloseableHttpClient;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Profile;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -29,7 +30,8 @@ import static cn.iocoder.yudao.framework.common.pojo.CommonResult.success;
 @RestController
 @RequestMapping("/md/test")
 @Validated
-public class TestController {
+@Profile({"local", "dev"})
+public class AppTestController {
     @Autowired
     private RsaComponent rsaComponent;
 
@@ -48,8 +50,8 @@ public class TestController {
     @RateLimiter(count = 1, keyResolver = MDLimiterKeyResolver.class)
     @GetMapping("/encrypt")
     public CommonResult<MovieDO> noEncrypt() {
-        MovieDO movie = MockUtils.mockMovie();
-        String encryptData = rsaComponent.encrypt(MockUtils.mockMovie());
+        MovieDO movie = MockUtils.mockMovie1();
+        String encryptData = rsaComponent.encrypt(MockUtils.mockMovie1());
         log.info("待加密:{}", JsonUtils.toJsonString(movie));
         log.info("加密后:{}", encryptData);
         log.info("解密:{}", JsonUtils.toJsonString(rsaComponent.decrypt(encryptData, MovieDO.class)));
@@ -61,7 +63,7 @@ public class TestController {
     @RateLimiter(count = 1, keyResolver = MDLimiterKeyResolver.class)
     @GetMapping("/apiEncrypt")
     public CommonResult<MovieDO> encrypt() {
-        MovieDO movie = MockUtils.mockMovie();
+        MovieDO movie = MockUtils.mockMovie1();
         return success(movie);
     }
 

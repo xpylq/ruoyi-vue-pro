@@ -28,7 +28,7 @@ import static cn.iocoder.yudao.framework.common.pojo.CommonResult.success;
 @Tag(name = "APP-MD-影片")
 @RestController
 @RequestMapping("/md/movie")
-@Profile({"local", "test", "prod"})
+@Profile({"test", "prod"})
 @Validated
 public class AppMovieController {
 

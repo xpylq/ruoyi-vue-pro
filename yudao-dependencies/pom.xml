@@ -578,6 +578,16 @@
                 <artifactId>httpcore5</artifactId>
                 <version>5.1.3</version>
             </dependency>
+            <!--
+                java中AES的默认模式是：AES/ECB/PKCS5Padding。通过这个依赖包来支持PKCS7Padding
+                1. 如果前端使用CryptoJS，请调整padding位PKCS7Padding
+                2. 由于IOS等移动端对AES加密有要求，必须为PKCS7Padding模式
+            -->
+            <dependency>
+                <groupId>org.bouncycastle</groupId>
+                <artifactId>bcprov-jdk15to18</artifactId>
+                <version>1.68</version>
+            </dependency>
 
             <!-- 三方云服务相关 -->
             <dependency>

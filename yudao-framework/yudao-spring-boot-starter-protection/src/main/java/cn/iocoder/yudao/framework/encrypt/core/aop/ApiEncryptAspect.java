@@ -5,6 +5,7 @@ import cn.hutool.crypto.asymmetric.KeyType;
 import cn.hutool.crypto.asymmetric.RSA;
 import cn.iocoder.yudao.framework.common.pojo.CommonResult;
 import cn.iocoder.yudao.framework.common.util.json.JsonUtils;
+import cn.iocoder.yudao.framework.encrypt.AesComponent;
 import cn.iocoder.yudao.framework.encrypt.RsaComponent;
 import cn.iocoder.yudao.framework.encrypt.core.annotation.ApiEncrypt;
 import cn.iocoder.yudao.framework.encrypt.config.ApiEncryptProperties;
@@ -23,13 +24,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 @Slf4j
 @Aspect
 public class ApiEncryptAspect {
+
     private final RsaComponent rsaComponent;
+
+    private final AesComponent aesComponent;
 
     @Autowired
     private ApiEncryptProperties properties;
 
-    public ApiEncryptAspect(RsaComponent rsaComponent) {
+    public ApiEncryptAspect(RsaComponent rsaComponent, AesComponent aesComponent) {
         this.rsaComponent = rsaComponent;
+        this.aesComponent = aesComponent;
     }
 
     @SuppressWarnings({"unchecked", "rawtypes"})
@@ -44,7 +49,14 @@ public class ApiEncryptAspect {
                 isCommonResult = true;
                 CommonResult commonResult = (CommonResult) result;
                 if (null != commonResult.getData()) {
-                    encryptData = rsaComponent.encrypt(commonResult.getData());
+                    switch (encrypt.type()) {
+                        case AES:
+                            encryptData = aesComponent.encrypt(commonResult.getData());
+                            break;
+                        case RSA:
+                            encryptData = rsaComponent.encrypt(commonResult.getData());
+                            break;
+                    }
                 }
             }
         } catch (Throwable e) {
