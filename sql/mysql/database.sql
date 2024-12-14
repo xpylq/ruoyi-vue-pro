@@ -1,1 +1,1 @@
-create database mall CHARACTER SET 'utf8mb4' COLLATE 'utf8mb4_unicode_ci';
+create database ruoyi_mall CHARACTER SET 'utf8mb4' COLLATE 'utf8mb4_unicode_ci';
