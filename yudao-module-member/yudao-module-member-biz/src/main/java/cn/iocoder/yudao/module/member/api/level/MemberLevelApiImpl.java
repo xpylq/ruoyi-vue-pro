@@ -4,6 +4,7 @@ import cn.iocoder.yudao.module.member.api.level.dto.MemberLevelRespDTO;
 import cn.iocoder.yudao.module.member.convert.level.MemberLevelConvert;
 import cn.iocoder.yudao.module.member.enums.MemberExperienceBizTypeEnum;
 import cn.iocoder.yudao.module.member.service.level.MemberLevelService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
@@ -17,6 +18,7 @@ import static cn.iocoder.yudao.module.member.enums.ErrorCodeConstants.EXPERIENCE
  *
  * @author owen
  */
+@Slf4j
 @Service
 @Validated
 public class MemberLevelApiImpl implements MemberLevelApi {

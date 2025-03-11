@@ -19,6 +19,7 @@ import cn.iocoder.yudao.module.trade.dal.mysql.order.TradeOrderMapper;
 import cn.iocoder.yudao.module.trade.dal.redis.RedisKeyConstants;
 import cn.iocoder.yudao.module.trade.enums.order.TradeOrderRefundStatusEnum;
 import cn.iocoder.yudao.module.trade.enums.order.TradeOrderStatusEnum;
+import cn.iocoder.yudao.module.trade.enums.order.TradeOrderTypeEnum;
 import cn.iocoder.yudao.module.trade.framework.delivery.core.client.ExpressClientFactory;
 import cn.iocoder.yudao.module.trade.framework.delivery.core.client.dto.ExpressTrackQueryReqDTO;
 import cn.iocoder.yudao.module.trade.framework.delivery.core.client.dto.ExpressTrackRespDTO;
@@ -93,6 +94,7 @@ public class TradeOrderQueryServiceImpl implements TradeOrderQueryService {
         if (userIds == null) { // 没查询到用户，说明肯定也没他的订单
             return PageResult.empty();
         }
+
         // 分页查询
         return tradeOrderMapper.selectPage(reqVO, userIds);
     }
@@ -125,7 +127,7 @@ public class TradeOrderQueryServiceImpl implements TradeOrderQueryService {
             return new TradeOrderSummaryRespVO();
         }
         // 查询每个售后状态对应的数量、金额
-        List<Map<String, Object>> list = tradeOrderMapper.selectOrderSummaryGroupByRefundStatus(reqVO, null);
+        List<Map<String, Object>> list = tradeOrderMapper.selectOrderSummaryGroupByRefundStatus(reqVO, userIds);
 
         TradeOrderSummaryRespVO vo = new TradeOrderSummaryRespVO().setAfterSaleCount(0L).setAfterSalePrice(0L);
         for (Map<String, Object> map : list) {
@@ -174,9 +176,9 @@ public class TradeOrderQueryServiceImpl implements TradeOrderQueryService {
     }
 
     @Override
-    public int getSeckillProductCount(Long userId, Long activityId) {
+    public int getActivityProductCount(Long userId, Long activityId, TradeOrderTypeEnum type) {
         // 获得订单列表
-        List<TradeOrderDO> orders = tradeOrderMapper.selectListByUserIdAndSeckillActivityId(userId, activityId);
+        List<TradeOrderDO> orders = tradeOrderMapper.selectListByUserIdAndActivityId(userId, activityId, type);
         orders.removeIf(order -> TradeOrderStatusEnum.isCanceled(order.getStatus())); // 过滤掉【已取消】的订单
         if (CollUtil.isEmpty(orders)) {
             return 0;
