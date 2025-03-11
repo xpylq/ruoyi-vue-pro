@@ -42,7 +42,7 @@ public class TestController {
     @PermitAll
     @GetMapping("/base64")
     public CommonResult<String> base64() {
-        MovieDO movie = MockUtils.mockMovie1();
+        MovieDO movie = MockUtils.mockMovie();
         String base64Encrypt = Base64.encode(JsonUtils.toJsonString(movie));
         String base64Decrypt = Base64.decodeStr(base64Encrypt);
         log.info("原始内容:{}", JsonUtils.toJsonString(movie));
@@ -54,8 +54,8 @@ public class TestController {
     @PermitAll
     @GetMapping("/rsa")
     public CommonResult<String> rsa() {
-        MovieDO movie = MockUtils.mockMovie1();
-        String encryptData = rsaComponent.encrypt(MockUtils.mockMovie1());
+        MovieDO movie = MockUtils.mockMovie(0);
+        String encryptData = rsaComponent.encrypt(MockUtils.mockMovie());
         log.info("原始内容:{}", JsonUtils.toJsonString(movie));
         log.info("加密后:{}", encryptData);
         log.info("解密:{}", JsonUtils.toJsonString(rsaComponent.decrypt(encryptData, MovieDO.class)));
@@ -65,8 +65,8 @@ public class TestController {
     @PermitAll
     @GetMapping("/aes")
     public CommonResult<String> aes() {
-        MovieDO movie = MockUtils.mockMovie1();
-        String encryptData = aesComponent.encrypt(MockUtils.mockMovie1());
+        MovieDO movie = MockUtils.mockMovie();
+        String encryptData = aesComponent.encrypt(MockUtils.mockMovie());
         log.info("原始内容:{}", JsonUtils.toJsonString(movie));
         log.info("加密后:{}", encryptData);
         log.info("解密:{}", JsonUtils.toJsonString(aesComponent.decrypt(encryptData, MovieDO.class)));
@@ -77,12 +77,12 @@ public class TestController {
     @GetMapping("/aesAnno")
     @ApiEncrypt
     public CommonResult<PageResult<MovieDO>> aesList() {
-        PageResult<MovieDO> result=new PageResult();
+        PageResult<MovieDO> result = new PageResult();
         result.setTotal(3L);
-        List<MovieDO> list=new ArrayList<>();
-        list.add(MockUtils.mockMovie1());
-        list.add(MockUtils.mockMovie2());
-        list.add(MockUtils.mockMovie3());
+        List<MovieDO> list = new ArrayList<>();
+        list.add(MockUtils.mockMovie(0));
+        list.add(MockUtils.mockMovie(1));
+        list.add(MockUtils.mockMovie(2));
         result.setList(list);
         return success(result);
     }

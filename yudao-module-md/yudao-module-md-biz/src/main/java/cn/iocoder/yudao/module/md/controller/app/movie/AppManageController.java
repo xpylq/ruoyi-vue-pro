@@ -20,6 +20,9 @@ public class AppManageController {
     @Autowired
     private MovieRedisDAO movieRedisDAO;
 
+    /**
+     * /app-api/md/manage/clearCache?token=m393K1FjPVPgoc
+     */
     @GetMapping("/clearCache")
     @PermitAll
     @RateLimiter(count = 1, keyResolver = MDLimiterKeyResolver.class)

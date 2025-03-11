@@ -1,7 +1,12 @@
 package cn.iocoder.yudao.framework.common.util.spring;
 
+import cn.hutool.core.collection.CollUtil;
+import cn.hutool.core.collection.CollectionUtil;
+import cn.hutool.core.util.ArrayUtil;
+import cn.hutool.core.util.StrUtil;
 import cn.hutool.extra.spring.SpringUtil;
 
+import java.util.Arrays;
 import java.util.Objects;
 
 /**
@@ -20,5 +25,14 @@ public class SpringUtils extends SpringUtil {
         String activeProfile = getActiveProfile();
         return Objects.equals("prod", activeProfile);
     }
+
+    /**
+     * 是否有任意指定的环境
+     */
+    public static boolean hasAnyProfiles(String... profiles) {
+        String[] activeProfiles = getActiveProfiles();
+        return ArrayUtil.containsAny(activeProfiles, profiles);
+    }
+
 
 }

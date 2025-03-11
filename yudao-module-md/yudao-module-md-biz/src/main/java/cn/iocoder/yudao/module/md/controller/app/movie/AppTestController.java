@@ -50,8 +50,8 @@ public class AppTestController {
     @RateLimiter(count = 1, keyResolver = MDLimiterKeyResolver.class)
     @GetMapping("/encrypt")
     public CommonResult<MovieDO> noEncrypt() {
-        MovieDO movie = MockUtils.mockMovie1();
-        String encryptData = rsaComponent.encrypt(MockUtils.mockMovie1());
+        MovieDO movie = MockUtils.mockMovie();
+        String encryptData = rsaComponent.encrypt(MockUtils.mockMovie());
         log.info("待加密:{}", JsonUtils.toJsonString(movie));
         log.info("加密后:{}", encryptData);
         log.info("解密:{}", JsonUtils.toJsonString(rsaComponent.decrypt(encryptData, MovieDO.class)));
@@ -63,7 +63,7 @@ public class AppTestController {
     @RateLimiter(count = 1, keyResolver = MDLimiterKeyResolver.class)
     @GetMapping("/apiEncrypt")
     public CommonResult<MovieDO> encrypt() {
-        MovieDO movie = MockUtils.mockMovie1();
+        MovieDO movie = MockUtils.mockMovie();
         return success(movie);
     }
 

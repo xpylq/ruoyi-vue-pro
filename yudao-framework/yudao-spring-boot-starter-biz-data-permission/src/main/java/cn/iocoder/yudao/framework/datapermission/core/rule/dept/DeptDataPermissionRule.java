@@ -35,12 +35,12 @@ import java.util.Set;
  *
  * 实际业务场景下，会存在一个经典的问题？当用户修改部门时，冗余的 dept_id 是否需要修改？
  * 1. 一般情况下，dept_id 不进行修改，则会导致用户看不到之前的数据。【yudao-server 采用该方案】
- * 2. 部分情况下，希望该用户还是能看到之前的数据，则有两种方式解决：【需要你改造该 DeptDataPermissionRule 的实现代码】
- *  1）编写洗数据的脚本，将 dept_id 修改成新部门的编号；【建议】
- *      最终过滤条件是 WHERE dept_id = ?
- *  2）洗数据的话，可能涉及的数据量较大，也可以采用 user_id 进行过滤的方式，此时需要获取到 dept_id 对应的所有 user_id 用户编号；
- *      最终过滤条件是 WHERE user_id IN (?, ?, ? ...)
- *  3）想要保证原 dept_id 和 user_id 都可以看的到，此时使用 dept_id 和 user_id 一起过滤；
+// * 2. 部分情况下，希望该用户还是能看到之前的数据，则有两种方式解决：【需要你改造该 DeptDataPermissionRule 的实现代码】
+// *  1）编写洗数据的脚本，将 dept_id 修改成新部门的编号；【建议】
+// *      最终过滤条件是 WHERE dept_id = ?
+// *  2）洗数据的话，可能涉及的数据量较大，也可以采用 user_id 进行过滤的方式，此时需要获取到 dept_id 对应的所有 user_id 用户编号；
+// *      最终过滤条件是 WHERE user_id IN (?, ?, ? ...)
+// *  3）想要保证原 dept_id 和 user_id 都可以看的到，此时使用 dept_id 和 user_id 一起过滤；
  *      最终过滤条件是 WHERE dept_id = ? OR user_id IN (?, ?, ? ...)
  *
  * @author 芋道源码
